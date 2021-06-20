@@ -1016,6 +1016,14 @@ def calc_map(ap_data):
                     aps[iou_idx][iou_type].append(ap_obj.get_ap())
 
     all_maps = {'box': OrderedDict(), 'mask': OrderedDict()}
+    
+        for _class in range(len(cfg.dataset.class_names)):
+        for iou_idx in range(len(iou_thresholds)):
+            for iou_type in ('box', 'mask'):
+                ap_obj = ap_data[iou_type][iou_idx][_class]
+
+                if not ap_obj.is_empty():
+                    print(ap_obj)
 
     # Looking back at it, this code is really hard to read :/
     for iou_type in ('box', 'mask'):

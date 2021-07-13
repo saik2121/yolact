@@ -43,6 +43,8 @@ COCO_CLASSES = ('person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus',
                 'toaster', 'sink', 'refrigerator', 'book', 'clock', 'vase',
                 'scissors', 'teddy bear', 'hair drier', 'toothbrush')
 
+CUSTOM_CLASSES=('hotspot')
+
 COCO_LABEL_MAP = { 1:  1,  2:  2,  3:  3,  4:  4,  5:  5,  6:  6,  7:  7,  8:  8,
                    9:  9, 10: 10, 11: 11, 13: 12, 14: 13, 15: 14, 16: 15, 17: 16,
                   18: 17, 19: 18, 20: 19, 21: 20, 22: 21, 23: 22, 24: 23, 25: 24,
@@ -126,6 +128,16 @@ dataset_base = Config({
     # provide a map from category_id -> index in class_names + 1 (the +1 is there because it's 1-indexed).
     # If not specified, this just assumes category ids start at 1 and increase sequentially.
     'label_map': None
+})
+custom_dataset=dataset_base.copy({
+'name':'custom_dataset',
+'train_images':'./data/images/',
+'train_info':'./data/train.json',
+'valid_images':'./data/images/',
+'valid_info':'./data/train.json',
+          
+'has_gt':True,
+'class_names': CUSTOM_CLASSES,
 })
 
 coco2014_dataset = dataset_base.copy({
@@ -657,8 +669,8 @@ yolact_base_config = coco_base_config.copy({
     'name': 'yolact_base',
 
     # Dataset stuff
-    'dataset': coco2017_dataset,
-    'num_classes': len(coco2017_dataset.class_names) + 1,
+    'dataset': custom_dataset,
+    'num_classes': len(custom_dataset.class_names) + 1,
 
     # Image Size
     'max_size': 550,
